@@ -1,12 +1,34 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Home from '../pages/home/index.vue'
+import {
+  createRouter,
+  createWebHistory,
+  RouteRecordRaw
+} from 'vue-router'
 
+import Home from '../pages/home/index.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Home',
     component: Home,
-    meta: { title: '控制台', icon: 'dashboard' }
+    meta: { title: '控制台首页', icon: 'dashboard' }
+  },
+  {
+    path: '/article',
+    name: 'ArticleIndex',
+    component: () => import('@/pages/article/index.vue'),
+    meta: { title: '文章管理', icon: '' }
+  },
+  {
+    path: '/ads',
+    name: 'AdsIndex',
+    component: () => import('@/pages/ads/index.vue'),
+    meta: { title: '广告管理', icon: '' }
+  },
+  {
+    path: '/system',
+    name: 'SystemIndex',
+    component: () => import('@/pages/system/index.vue'),
+    meta: { title: '系统管理', icon: '' }
   },
   {
     path: '/account',
