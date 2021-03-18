@@ -5,8 +5,12 @@
         v-for="item in routes"
         :key="item.path"
       >
-        <router-link :to="item.path" class="flex-align-center">
-          {{ item.meta.title }}
+        <router-link :to="item.path" class="flex-between-center">
+          <div class="title flex-align-center">
+            <!-- <component :is="item.icon" /> -->
+            <p>{{ item.meta.title }}</p>
+          </div>
+          <caret-right-filled />
         </router-link>
       </li>
     </ul>
@@ -15,13 +19,25 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
+import { CaretRightFilled } from '@ant-design/icons-vue'
 export default defineComponent({
+  components: {
+    CaretRightFilled
+  },
   setup () {
     const router = useRouter()
 
     const routes = computed(() => {
       const arr = router.options.routes
-      return arr.filter(item => item.meta?.layout !== 'null')
+      const res: Array<unknown> = []
+      arr.forEach((item) => {
+        if (item.meta?.layout !== 'null') {
+          // const iconName = item.meta?.icon || 'AppstoreOutlined'
+          // const icon = defineAsyncComponent(() => import(`@ant-design/icons-vue/${iconName}`))
+          res.push(item)
+        }
+      })
+      return res
     })
 
     return { routes }
@@ -34,9 +50,25 @@ export default defineComponent({
   user-select none
   &>ul
     &>li
-      height $font * 2 + 4
+      // margin 5px 0
+      height $font * 3
       a
-        padding-left $font
+        line-height @height
+        padding 0 $font
+        color #fff
+        height @line-height
         width 100%
-        height 100%
+        font-size $font - 2
+        border 2px solid transparent
+        &>div
+          height 100%
+          p
+            margin 0 0 0 ($font / 2)
+            line-height @line-height
+        &.router-link-exact-active
+          background-color rgba(#fff, .2)
+          border 2px solid rgba(#fff, .5)
+          border-top-color transparent
+          border-right-color transparent
+          border-bottom-color transparent
 </style>
