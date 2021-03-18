@@ -6,10 +6,10 @@
 <style lang="stylus">
 @import '~@/assets/css/variables.styl'
 .head-brand
-  width $font * 10
+  width $font * 12
   height 100%
   padding 0 $font
-  background-color rgba(#fff, .1)
+  // background-color rgba(#fff, .1)
   a
     color #fff
     &:hover
