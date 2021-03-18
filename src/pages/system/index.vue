@@ -1,6 +1,6 @@
 <template>
   <div class="system-index">
-    系统管理：路由，管理员, 权限，密码等等...
+    系统管理：路由，管理员, 权限，系统日志，密码等等...
   </div>
 </template>
 <script lang="ts">
