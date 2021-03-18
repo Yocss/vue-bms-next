@@ -25,8 +25,8 @@ export default defineComponent({
 @import '~@/assets/css/variables.styl'
 .layouts-default
   position relative
-  padding-left $font * 10
-  $topHeight = $font * 3
+  padding-left $font * 12
+  $topHeight = $font * 3.5
   &-side
     position fixed
     left 0
@@ -34,7 +34,8 @@ export default defineComponent({
     bottom 0
     width @padding-left
     height 100%
-    background-color #555
+    // background-color #051523
+    background-color darken($primary, 75%)
   &-main
     position fixed
     left @padding-left
@@ -49,5 +50,5 @@ export default defineComponent({
     right 0
     width 100%
     height $topHeight
-    background-color #333
+    background-color darken($primary, 60%)
 </style>
