@@ -22,7 +22,10 @@ export default defineComponent({
       if (!user.value || !pwd.value) {
         message.error('帐号或密码不能为空')
       } else {
-        const data = await axios.post('/')
+        const data = await axios.post('account/login', {
+          loginTel: user.value,
+          pwd: pwd.value
+        })
         console.log(data)
       }
     }

@@ -2,7 +2,7 @@
   <div class="account-index flex-center">
     <div class="account-form flex-column-between">
       <div class="account-form-hd flex-center">
-        <h1>金彤学校网站后台管理系统</h1>
+        <h1>网站后台管理系统</h1>
       </div>
       <div class="account-form-bd">
         <div class="account-label">
