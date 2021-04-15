@@ -5,6 +5,7 @@
     </div>
     <div class="layouts-default-main">
       <default-head />
+      <default-nav />
       <router-view />
     </div>
   </div>
@@ -13,11 +14,13 @@
 import { defineComponent } from 'vue'
 import DefaultHead from './Head.vue'
 import DefaultMenu from './Menu.vue'
+import DefaultNav from './Nav.vue'
 export default defineComponent({
   name: 'LayoutsDefault',
   components: {
     DefaultHead,
-    DefaultMenu
+    DefaultMenu,
+    DefaultNav
   }
 })
 </script>
@@ -36,6 +39,8 @@ export default defineComponent({
     height 100%
     // background-color #051523
     background-color darken($primary, 75%)
+  &-nav
+    background-color darken($primary, 75%)
   &-main
     position fixed
     left @padding-left
@@ -43,6 +48,7 @@ export default defineComponent({
     top 0
     bottom 0
     padding-top $topHeight
+    background-color #f8f8f8
   &-head
     position fixed
     top 0
