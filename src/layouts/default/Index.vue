@@ -41,6 +41,7 @@ export default defineComponent({
     background-color darken($primary, 75%)
   &-nav
     background-color darken($primary, 75%)
+    border-left 1px solid #3d4b58
   &-main
     position fixed
     left @padding-left

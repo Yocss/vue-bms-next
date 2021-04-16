@@ -5,20 +5,26 @@
         v-for="item in routes"
         :key="item.path"
       >
-        <router-link :to="item.path" class="flex-between-center">
+        <a
+          href="javascript:void(0);"
+          :class="{'active': currentRoute === item.path}"
+          class="flex-between-center"
+          @click="goTo(item.path, item.meta.title)"
+        >
           <div class="title flex-align-center">
             <!-- <component :is="item.icon" /> -->
             <p>{{ item.meta.title }}</p>
           </div>
           <caret-right-filled />
-        </router-link>
+        </a>
       </li>
     </ul>
   </div>
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import { useStore } from '@/store'
 import { CaretRightFilled } from '@ant-design/icons-vue'
 export default defineComponent({
   components: {
@@ -26,6 +32,8 @@ export default defineComponent({
   },
   setup () {
     const router = useRouter()
+    const route = useRoute()
+    const store = useStore()
 
     const routes = computed(() => {
       const arr = router.options.routes
@@ -39,8 +47,18 @@ export default defineComponent({
       })
       return res
     })
+    const currentRoute = computed(() => {
+      return route.path
+    })
+    const goTo = (url: string, title: string) => {
+      const navs = computed(() => { return store.state.navs })
+      if (!navs.value.some(e => e.url === url)) {
+        store.dispatch('SetNavs', { navs: navs.value.concat({ url, title }) })
+      }
+      router.push(url)
+    }
 
-    return { routes }
+    return { routes, currentRoute, goTo }
   }
 })
 </script>
@@ -65,7 +83,7 @@ export default defineComponent({
           p
             margin 0 0 0 ($font / 2)
             line-height @line-height
-        &.router-link-exact-active
+        &.active
           background-color rgba(#fff, .2)
           border 2px solid rgba(#fff, .5)
           border-top-color transparent

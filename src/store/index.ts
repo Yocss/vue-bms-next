@@ -5,6 +5,8 @@ import { state, State } from './state'
 // import { useRoute } from 'vue-router'
 import { mutations } from './mutations'
 import { cookie } from '@axmine/helper/lib/cookie'
+import { Storage } from '@axmine/helper/lib/storage'
+const localStorage = new Storage()
 export const key: InjectionKey<Store<State>> = Symbol('For state.state')
 
 const actions: ActionTree<State, State> = {
@@ -18,6 +20,10 @@ const actions: ActionTree<State, State> = {
     } else {
       dispatch('SetStore', { account: { visible } })
     }
+  },
+  SetNavs ({ dispatch }, navs) {
+    localStorage.set('_navs_', navs)
+    dispatch('SetStore', { navs })
   },
   SetToken ({ dispatch }, token: string) {
     dispatch('SetStore', { token })

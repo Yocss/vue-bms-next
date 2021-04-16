@@ -1,19 +1,12 @@
 <template>
   <div class="layouts-default-nav flex-between-center">
     <ul class="flex-align-center">
-      <li>
+      <li
+        v-for="item in navs"
+        :key="item.url"
+      >
         <div class="item flex-center active">
-          <span>控制台</span>
-        </div>
-      </li>
-      <li>
-        <div class="item flex-center">
-          <span>文章管理</span>
-        </div>
-      </li>
-      <li>
-        <div class="item flex-center">
-          <span>广告管理</span>
+          <span>{{ item.title }}</span>
         </div>
       </li>
       <li>关闭全部</li>
@@ -21,13 +14,21 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { Button } from 'ant-design-vue'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'LayoutsDefaultNav',
   components: {
     [Button.name]: Button
+  },
+  setup () {
+    const store = useStore()
+    const navs = computed(() => {
+      return store.state.navs
+    })
+    return { navs }
   }
 })
 </script>
@@ -36,6 +37,7 @@ export default defineComponent({
 .layouts-default-nav
   width 100%
   height 42px
+  user-select none
   ul
     height 100%
     li
@@ -50,8 +52,10 @@ export default defineComponent({
         // border 1px solid #ccc
         border-radius 8px
         background-color #fff
+        cursor pointer
         &.active
           color #fff
           background-color $success
           font-weight bold
+          cursor default
 </style>

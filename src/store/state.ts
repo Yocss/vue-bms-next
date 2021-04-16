@@ -1,9 +1,11 @@
-// import Cookie from '@/plugins/cookie'
 import { cookie } from '@axmine/helper/lib/cookie'
+import { Storage } from '@axmine/helper/lib/storage'
+const localStorage = new Storage()
 interface NavType {
   url: string;
-  icon: string;
   title: string;
+  icon?: string;
+  [key: string]: unknown;
 }
 function getUid (): number {
   let n = -1
@@ -11,6 +13,12 @@ function getUid (): number {
     n = parseInt(cookie.get('_uid_'))
   }
   return n
+}
+
+function getNavs () {
+  const navs = localStorage.get('_navs_') || [{ url: '/', title: '控制台' }]
+  return navs
+  // return localStorage.get('_navs_') || [{ url: '/', title: '投票' }]
 }
 export interface State {
   layout: 'default' | 'home' | 'null';
@@ -25,12 +33,8 @@ export const state: State = {
   layout: 'default',
   transition: '',
   token: cookie.get('_t_'),
-  navs: [
-    { url: '/', icon: 'wap-home', title: '投票' },
-    // { url: '/rank', icon: 'fire', title: '排行榜' },
-    { url: '/manager', icon: 'manager', title: '管理' }
-  ],
-  env: 'mb',
+  navs: getNavs() as Array<NavType>,
+  env: 'pc',
   uid: getUid(),
   account: {
     visible: false
