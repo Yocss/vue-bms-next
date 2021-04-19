@@ -52,9 +52,8 @@ export default defineComponent({
     })
     const goTo = (url: string, title: string) => {
       const navs = computed(() => { return store.state.navs })
-      if (!navs.value.some(e => e.url === url)) {
-        store.dispatch('SetNavs', { navs: navs.value.concat({ url, title }) })
-      }
+      const bool = !navs.value.some(e => e.url === url)
+      bool && store.dispatch('SetNavs', navs.value.concat({ url, title }))
       router.push(url)
     }
 

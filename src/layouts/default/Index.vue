@@ -40,8 +40,12 @@ export default defineComponent({
     // background-color #051523
     background-color darken($primary, 75%)
   &-nav
+    width 100%
+    height 42px
+    user-select none
+    border-left 1px solid #999
+    // border-left 1px solid #3d4b58
     background-color darken($primary, 75%)
-    border-left 1px solid #3d4b58
   &-main
     position fixed
     left @padding-left

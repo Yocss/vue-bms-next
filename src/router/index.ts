@@ -10,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'Home',
     component: Home,
-    meta: { title: '控制台首页', icon: 'DashboardOutlined' }
+    meta: { title: '控制台', icon: 'DashboardOutlined' }
   },
   {
     path: '/article',

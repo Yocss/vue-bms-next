@@ -16,8 +16,12 @@ function getUid (): number {
 }
 
 function getNavs () {
-  const navs = localStorage.get('_navs_') || [{ url: '/', title: '控制台' }]
-  return navs
+  const navs = localStorage.get('_navs_')
+  if (!Array.isArray(navs) || navs.length < 1) {
+    return [{ url: '/', title: '控制台' }]
+  } else {
+    return navs
+  }
   // return localStorage.get('_navs_') || [{ url: '/', title: '投票' }]
 }
 export interface State {
