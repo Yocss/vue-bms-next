@@ -23,23 +23,56 @@
             </div>
           </div>
         </li>
-        <li>关闭全部</li>
+        <li
+          v-show="navs.length > 2"
+          style="margin-left: auto; padding-right: 7px;"
+          class="flex-center"
+        >
+          <a-tooltip placement="right">
+            <template #title>
+              <span>关闭全部</span>
+            </template>
+            <!-- <DeleteOutlined /> -->
+            <CloseCircleOutlined
+              @click="handleClose(0, true)"
+            />
+            <!-- <a-button
+              shape="round"
+              type="default"
+              plain
+              size="small"
+              @click="handleClose(0, true)"
+            >
+              <template #icon>
+                <DeleteOutlined />
+              </template>
+            </a-button> -->
+          </a-tooltip>
+        </li>
       </ul>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import { LoadingOutlined, PoweroffOutlined } from '@ant-design/icons-vue'
-import { Button } from 'ant-design-vue'
+import {
+  LoadingOutlined,
+  PoweroffOutlined,
+  // DeleteOutlined,
+  CloseCircleOutlined
+} from '@ant-design/icons-vue'
+import { Button, Tooltip } from 'ant-design-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'LayoutsDefaultNav',
   components: {
+    CloseCircleOutlined,
+    // DeleteOutlined,
     LoadingOutlined,
     PoweroffOutlined,
+    [Tooltip.name]: Tooltip,
     [Button.name]: Button
   },
   setup () {
@@ -58,17 +91,24 @@ export default defineComponent({
         router.replace(item.url)
       }
     }
-    const handleClose = (i: number) => {
+    const handleClose = (i: number, all = false) => {
       const nav = computed(() => { return store.state.navs })
-      const navs = nav.value.slice(0, i).concat(nav.value.slice(i + 1))
+      const navs = all ? nav.value.slice(0, 1) : nav.value.slice(0, i).concat(nav.value.slice(i + 1))
       store.dispatch('SetNavs', navs)
-      const j = i < nav.value.length - 1 ? i + 1 : i - 1
+      const j = all ? 0 : i < nav.value.length - 1 ? i + 1 : i - 1
       router.replace(nav.value[j].url)
     }
     const handleContextMenu = (i: number) => {
       console.log(i)
     }
-    return { active, navs, curRoute, handleClick, handleClose, handleContextMenu }
+    return {
+      active,
+      navs,
+      curRoute,
+      handleClick,
+      handleClose,
+      handleContextMenu
+    }
   }
 })
 </script>
@@ -91,7 +131,7 @@ export default defineComponent({
         height 100%
         padding 0 8px
         border-radius 4px
-        background-color #fff
+        background-color #f0f0f0
         cursor pointer
         font-size $font - 2
         p

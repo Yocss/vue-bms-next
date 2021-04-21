@@ -1,8 +1,11 @@
 <template>
-  <base-page class="home-index">
-    <template v-slot:header>
-      aabbcc
-    </template>
+  <base-page
+    class="home-index"
+    :buttons="buttons"
+    @event="onEvent"
+  >
+    <!-- <template v-slot:header>
+    </template> -->
     haha
     <template v-slot:footer>
       bbcc
@@ -11,8 +14,10 @@
 </template>
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
-import axios from '@/plugins/axios'
+// import axios from '@/plugins/axios'
 import BasePage from '@/components/common/base-page.vue'
+
+import { ButtonType, EventType } from '@/dto'
 
 export default defineComponent({
   name: 'HomeIndex',
@@ -20,13 +25,15 @@ export default defineComponent({
     BasePage
   },
   setup () {
-    const data = reactive({
-      title: '首页'
-    })
-    const onClick = () => {
-      axios.get('/')
+    const buttons = reactive([
+      { title: '添加新文章', action: 'newArticle' },
+      { title: '添加新分类', action: 'newCat' }
+    ] as Array<ButtonType>)
+
+    const onEvent = (data: EventType) => {
+      console.log(data.action)
     }
-    return { ...data, onClick }
+    return { buttons, onEvent }
   }
 })
 </script>

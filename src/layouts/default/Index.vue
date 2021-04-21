@@ -30,6 +30,7 @@ export default defineComponent({
   position relative
   padding-left $font * 12
   $topHeight = $font * 3.5
+  $navHeight = 42px
   &-side
     position fixed
     left 0
@@ -39,20 +40,25 @@ export default defineComponent({
     height 100%
     // background-color #051523
     background-color darken($primary, 75%)
+    z-index 3
   &-nav
+    position fixed
+    top $topHeight
+    left 0
+    padding-left @padding-left
     width 100%
-    height 42px
+    height $navHeight
     user-select none
-    border-left 1px solid #999
-    // border-left 1px solid #3d4b58
-    background-color darken($primary, 75%)
+    // background-color darken($primary, 80%)
+    background-color #fff
+    z-index 2
   &-main
     position fixed
     left @padding-left
     right 0
     top 0
     bottom 0
-    padding-top $topHeight
+    padding-top $topHeight + $navHeight
     background-color #f8f8f8
   &-head
     position fixed
@@ -62,4 +68,5 @@ export default defineComponent({
     width 100%
     height $topHeight
     background-color darken($primary, 60%)
+    z-index 4
 </style>
