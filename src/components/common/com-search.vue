@@ -11,7 +11,7 @@
         >搜索</a-button>
         <!-- /搜索按钮 -->
         <!-- 清空搜索条件 -->
-        <a-tooltip>
+        <a-tooltip placement="topLeft">
           <template #title>
             <span>清空搜索条件</span>
           </template>

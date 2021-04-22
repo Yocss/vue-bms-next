@@ -1,39 +1,80 @@
 <template>
   <base-page
     class="home-index"
-    :buttons="buttons"
+    v-bind="baseProps"
     @event="onEvent"
   >
-    <!-- <template v-slot:header>
-    </template> -->
-    haha
-    <template v-slot:footer>
-      bbcc
-    </template>
+    <!-- body -->
+    <com-table
+      :head="head"
+      :data="data"
+    />
   </base-page>
 </template>
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 // import axios from '@/plugins/axios'
+import ComTable from '@/components/common/com-table/index.vue'
+import { ComTableHeadType } from '@/components/common/com-table/dto'
 import BasePage from '@/components/common/base-page.vue'
-
-import { ButtonType, EventType } from '@/dto'
+import { BasePagePropsType, EventType } from '@/dto'
 
 export default defineComponent({
   name: 'HomeIndex',
   components: {
+    ComTable,
     BasePage
   },
   setup () {
-    const buttons = reactive([
-      { title: '添加新文章', action: 'newArticle' },
-      { title: '添加新分类', action: 'newCat' }
-    ] as Array<ButtonType>)
-
-    const onEvent = (data: EventType) => {
-      console.log(data.action)
+    const basePropsData: BasePagePropsType = {
+      buttons: {
+        hd: [{ title: '添加新文章', action: 'newArticle' }],
+        ft: [{ title: '全选', action: 'selectAll' }]
+      },
+      pagination: { current: 1, pageSize: 20, total: 1000 }
     }
-    return { buttons, onEvent }
+    const tableHeadData: Array<ComTableHeadType> = [
+      { title: '姓名', field: 'name' },
+      { title: '年龄', field: 'age' },
+      { title: '地址', field: 'address' }
+    ]
+    const data = ref([
+      {
+        id: 1,
+        name: '小桂子',
+        age: 32,
+        address: '江西省南昌市'
+      },
+      {
+        id: 2,
+        name: '小马子',
+        age: 23,
+        address: '江西省宜春市'
+      }
+    ])
+    const head = ref(tableHeadData)
+    const baseProps = reactive(basePropsData)
+
+    const onEvent = (e: EventType) => {
+      console.log(e)
+      const data = e.data
+      switch (e.action) {
+        case 'pageChange': {
+          type DataType = {
+            current: number;
+            pageSize: number;
+          }
+          baseProps.pagination.current = (data as DataType).current
+          break
+        }
+      }
+    }
+    return {
+      data,
+      head,
+      baseProps,
+      onEvent
+    }
   }
 })
 </script>
