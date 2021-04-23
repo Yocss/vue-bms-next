@@ -34,7 +34,7 @@ export default defineComponent({
       pagination: { current: 1, pageSize: 20, total: 1000 }
     }
     const tableHeadData: Array<ComTableHeadType> = [
-      { title: '姓名', field: 'name' },
+      { title: '姓名', field: 'name', slot: 'image' },
       { title: '年龄', field: 'age' },
       { title: '地址', field: 'address' }
     ]
