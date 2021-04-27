@@ -24,7 +24,16 @@
         <!-- /操作按钮 -->
         <!-- 其他组件 -->
         <template v-else>
-          <div>{{ item.slotType === 'text' ? text : record[item.dataIndex] }}</div>
+          <component
+            v-if="item.slotType !== 'custom'"
+            :is="preComponents[item.slotType]"
+            :data="record[item.dataIndex]"
+          />
+          <component
+            v-else
+            :is="record[item.dataIndex].component"
+            v-bind="record[item.dataIndex]"
+          />
         </template>
         <!-- /其他组件 -->
       </template>
@@ -32,9 +41,12 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, computed, toRefs } from 'vue'
+import { defineComponent, computed, toRefs, reactive } from 'vue'
 import { Table } from 'ant-design-vue'
 import { ComTableHeadType } from './dto'
+import PluginImage from './plugin-image.vue'
+import PluginText from './plugin-text.vue'
+import PluginTag from './plugin-tag.vue'
 
 interface ColumnsType {
   title: string;
@@ -62,6 +74,11 @@ export default defineComponent({
     [Table.name]: Table
   },
   setup (prop) {
+    const preComponents = reactive({
+      image: PluginImage,
+      tag: PluginTag,
+      text: PluginText
+    })
     const dataSource = computed(() => {
       const { data } = toRefs(prop)
       return (data.value as Array<Record<string, unknown>>).reduce((arr = [], item, i: number) => {
@@ -107,7 +124,8 @@ export default defineComponent({
     })
     return {
       columns,
-      dataSource
+      dataSource,
+      preComponents
     }
   }
 })
