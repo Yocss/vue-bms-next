@@ -1,3 +1,4 @@
+import { ButtonType } from '@/dto'
 export interface ComTableHeadType {
   title: string;
   field: string;
@@ -10,4 +11,14 @@ export interface CustomType {
   data: unknown;
   props: Record<string, unknown>;
   [key: string]: unknown;
+}
+
+export interface TableDataType {
+  [key: string]: unknown;
+  customTableAction: Array<ButtonType>;
+}
+
+export interface ComTablePropsType {
+  head: Array<ComTableHeadType>;
+  data: Array<TableDataType>;
 }

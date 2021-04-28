@@ -19,7 +19,11 @@
         <!-- /序号 -->
         <!-- 操作按钮 -->
         <template v-else-if="item.slots.customRender === 'customTableAction'">
-          显示按钮
+          <!-- 显示按钮 -->
+          <plugin-btns
+            :data="record"
+            @event="onEvent"
+          />
         </template>
         <!-- /操作按钮 -->
         <!-- 其他组件 -->
@@ -43,7 +47,9 @@
 <script lang="ts">
 import { defineComponent, computed, toRefs, reactive } from 'vue'
 import { Table } from 'ant-design-vue'
-import { ComTableHeadType } from './dto'
+import { ComTableHeadType, TableDataType } from './dto'
+import { EventType } from '@/dto'
+import PluginBtns from './plugin-btns.vue'
 import PluginImage from './plugin-image.vue'
 import PluginText from './plugin-text.vue'
 import PluginTag from './plugin-tag.vue'
@@ -67,13 +73,14 @@ export default defineComponent({
     },
     data: {
       type: Array,
-      default: () => { return [] }
+      default: () => { return [] as Array<TableDataType> }
     }
   },
   components: {
+    PluginBtns,
     [Table.name]: Table
   },
-  setup (prop) {
+  setup (prop, { emit }) {
     const preComponents = reactive({
       image: PluginImage,
       tag: PluginTag,
@@ -81,9 +88,10 @@ export default defineComponent({
     })
     const dataSource = computed(() => {
       const { data } = toRefs(prop)
-      return (data.value as Array<Record<string, unknown>>).reduce((arr = [], item, i: number) => {
+      const dataVal = data.value as Array<TableDataType>
+      return dataVal.reduce((arr = [], item, i: number) => {
         return arr.concat(Object.assign(item, { customTableOrder: i + 1 }))
-      }, [] as Array<Record<string, unknown>>)
+      }, [] as Array<TableDataType>)
     })
     const columns = computed(() => {
       const res: Array<ColumnsType> = []
@@ -103,7 +111,7 @@ export default defineComponent({
           align: item?.align || 'left'
         }, slot))
       }
-      res.unshift({
+      head.value.length > 0 && res.unshift({
         title: '序号',
         dataIndex: 'customTableOrder',
         key: 'customTableOrder',
@@ -112,7 +120,8 @@ export default defineComponent({
         slotType: 'text',
         slots: { customRender: 'customTableOrder' }
       })
-      res.push({
+      const bool = dataSource.value.some(e => e.customTableAction.length > 0)
+      bool && res.push({
         title: '操作',
         dataIndex: 'customTableAction',
         key: 'customTableAction',
@@ -122,8 +131,12 @@ export default defineComponent({
       })
       return res
     })
+    const onEvent = (data: EventType) => {
+      emit('event', data)
+    }
     return {
       columns,
+      onEvent,
       dataSource,
       preComponents
     }

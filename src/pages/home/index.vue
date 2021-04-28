@@ -4,29 +4,19 @@
     v-bind="baseProps"
     @event="onEvent"
   >
-    <!-- body -->
-    <!-- <div
-      draggable="true"
-      style="user-select: none; width: 200px; height: 300px; background-color: #f33"
-    >
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-    </div> -->
     <com-table
       :head="head"
       :data="data"
+      @event="onEvent"
     />
   </base-page>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 // import axios from '@/plugins/axios'
-import ComTable from '@/components/common/com-table/index.vue'
-import { ComTableHeadType } from '@/components/common/com-table/dto'
 import BasePage from '@/components/common/base-page.vue'
+import ComTable from '@/components/common/com-table/index.vue'
+import { ComTableHeadType, TableDataType } from '@/components/common/com-table/dto'
 import { BasePagePropsType, EventType } from '@/dto'
 import HelloTest from './text.vue'
 
@@ -49,7 +39,7 @@ export default defineComponent({
       { title: '年龄', field: 'age' },
       { title: '地址', field: 'address', slot: 'custom' }
     ]
-    const data = ref([
+    const tableData: Array<TableDataType> = [
       {
         id: 1,
         name: 'https://sihong-lm.oss-cn-shanghai.aliyuncs.com/manager/131614937161bf9228baa0900188e150da93c37b3cf8.jpg',
@@ -61,7 +51,8 @@ export default defineComponent({
           props: {
             style: { backgroundColor: '#3f3' }
           }
-        }
+        },
+        customTableAction: []
       },
       {
         id: 2,
@@ -71,9 +62,14 @@ export default defineComponent({
           component: HelloTest,
           data: '江西省吉安市',
           props: {}
-        }
+        },
+        customTableAction: [
+          { action: 'del', title: 'haha', props: { type: 'default' } },
+          { action: 'show', title: 'baba', props: { type: 'primary', ghost: true } }
+        ]
       }
-    ])
+    ]
+    const data = ref(tableData)
     const head = ref(tableHeadData)
     const baseProps = reactive(basePropsData)
 
