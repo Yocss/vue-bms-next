@@ -17,6 +17,15 @@
       v-bind="comTableData"
       @event="onEvent"
     />
+    <com-drawer
+      v-model:visible="showDrawer"
+      title="新增文章"
+      :buttons="drawerFoot"
+      @event="onEvent"
+    >
+      <!-- kwg kwg -->
+      <article-edit />
+    </com-drawer>
   </base-page>
 </template>
 <script lang="ts" src="./index.ts"></script>

@@ -13,3 +13,70 @@ ul, ol, li
   padding 10px
 .ant-popover-inner-content
   padding 8px
+.com-drawer
+  &.has-foot
+    .ant-drawer-body
+      padding 0 0 51px
+      .com-drawer-foot
+        display: flex
+  .ant-drawer-wrapper-body
+    padding-top 42px
+  .ant-drawer-body
+    position relative
+    width 100%
+    height 100%
+    padding 0
+    .com-drawer-body
+      width 100%
+      height 100%
+    .com-drawer-foot
+      display: none
+      position: absolute
+      width 100%
+      height 51px
+      border-top 1px solid #f0f0f0
+      background-color #f8f8f8
+      .ant-btn
+        margin 0 4px
+  .ant-drawer-header
+    position absolute
+    left 0
+    width 100%
+    user-select none
+    background-color #f8f8f8
+  .ant-drawer-header
+    position: absolute
+    top 0
+    padding 10px
+    height 42px
+    .ant-drawer-close
+      right auto
+      left 14px
+      top 50%
+      width 14px
+      height @width
+      margin-top - (@height / 2)
+      background-color #ff3860
+      border-radius @height
+      border 1px solid darken(@background-color, 25%)
+      overflow hidden
+      &::after
+      &::before
+        content ' '
+        position: absolute
+        left 50%
+        margin-left -1px
+        top 1px
+        width 2px
+        height: 10px
+        border-radius 2px
+        background-color #fff
+        transform: rotate(45deg)
+      &::before
+        transform: rotate(-45deg)
+      .anticon-close
+        display: none
+    .ant-drawer-title
+      padding-left: 30px
+      font-size $font
+      font-weight: normal
